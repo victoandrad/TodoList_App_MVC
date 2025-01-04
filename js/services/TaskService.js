@@ -9,10 +9,12 @@ export default class TaskService {
     getTasks(callback) {
         const fn = (data) => {
             this.tasks = data.map(task => {
-                const { title, completed, createdAt, updatedAt } = task
-                return new Task(title, completed, createdAt, updatedAt)
+                const { title, completed, createdAt, updatedAt, id } = task
+                return new Task(title, completed, createdAt, updatedAt, id)
             })
-            callback(this.tasks)
+            if (typeof callback === "function") {
+                callback(this.tasks)
+            }
         }
         createXMLHttpRequest("GET", "http://localhost:3000/tasks", fn)
     }
@@ -25,5 +27,12 @@ export default class TaskService {
             this.getTasks(callback)
         }
         createXMLHttpRequest("POST", "http://localhost:3000/tasks", fn, JSON.stringify(task))
+    }
+
+    delete(id, callback) {
+        const fn = () => {
+            this.getTasks(callback)
+        }
+        createXMLHttpRequest("DELETE", `http://localhost:3000/tasks/${id}`, fn)
     }
 }

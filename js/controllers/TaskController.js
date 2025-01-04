@@ -11,4 +11,10 @@ export default class TaskController {
             this.view.render(this.service.tasks)
         })
     }
+
+    delete(id) {
+        this.service.delete(id, () => {
+            this.view.render(this.service.tasks)
+        })
+    }
 }
