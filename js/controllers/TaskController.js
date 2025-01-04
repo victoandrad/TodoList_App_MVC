@@ -19,8 +19,16 @@ export default class TaskController {
     }
 
     update(id, obj) {
+        console.log(obj)
         this.service.update(id, obj, () => {
             this.view.render(this.service.tasks)
         })
+    }
+
+    toggleDone(id) {
+        const task = this.service.searchById(id)
+        task.toggleDone()
+        const { completed } = task
+        this.update(id, {completed})
     }
 }

@@ -42,4 +42,8 @@ export default class TaskService {
         }
         createXMLHttpRequest("PATCH", `http://localhost:3000/tasks/${id}`, fn, JSON.stringify(obj))
     }
+
+    searchById(id) {
+        return this.tasks.find(task => task.id === id)
+    }
 }

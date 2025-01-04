@@ -62,7 +62,6 @@ function init(arrInstancesTasks) {
             checkButton: function () {
                 const id = currentLi.getAttribute("data-id")
                 taskController.toggleDone(id)
-                console.log("Oi")
             }
         }
     
