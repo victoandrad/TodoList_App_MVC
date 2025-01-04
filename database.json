@@ -1,0 +1,44 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "Task Modified",
+      "completed": false,
+      "createdAt": "",
+      "updatedAt": "",
+      "userId": 1
+    },
+    {
+      "id": "2",
+      "title": "Task 2",
+      "completed": false,
+      "createdAt": "",
+      "updatedAt": "",
+      "userId": 2
+    },
+    {
+      "id": "435c",
+      "title": "dasdsa",
+      "completed": false,
+      "createdAt": 1735951860266,
+      "updatedAt": null
+    },
+    {
+      "id": "b792",
+      "title": "sdasda",
+      "completed": false,
+      "createdAt": 1735952024931,
+      "updatedAt": null
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Luiza Aurora"
+    },
+    {
+      "id": "2",
+      "name": "Victor Andrade"
+    }
+  ]
+}
