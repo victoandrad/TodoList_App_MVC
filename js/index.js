@@ -29,6 +29,7 @@ function init(arrInstancesTasks) {
     function clickedUl(e) {
         const dataAction = e.target.getAttribute("data-action")
         console.log(e.target)
+        console.log(dataAction)
         if (!dataAction) return
     
         let currentLi = e.target
@@ -40,32 +41,28 @@ function init(arrInstancesTasks) {
         const actions = {
             editButton: function () {
                 const editContainer = currentLi.querySelector(".editContainer");
-    
                 [...ul.querySelectorAll(".editContainer")].forEach(container => {
                     container.removeAttribute("style")
                 });
-    
                 editContainer.style.display = "flex";
-    
             },
             deleteButton: function () {
-                taskController.delete(currentLi.getAttribute("data-id"))
-
+                const id = currentLi.getAttribute("data-id")
+                taskController.delete(id)
             },
             containerEditButton: function () {
-                const val = currentLi.querySelector(".editInput").value
-                arrInstancesTasks[currentLiIndex].setName(val)
-                renderTasks()
+                const id = currentLi.getAttribute("data-id")
+                const value = currentLi.querySelector(".editInput").value
+                taskController.update(id, {title: value})
             },
             containerCancelButton: function () {
                 currentLi.querySelector(".editContainer").removeAttribute("style")
                 currentLi.querySelector(".editInput").value = arrInstancesTasks[currentLiIndex].getName()
             },
             checkButton: function () {
-    
-                // DEVE USAR O MÉTODO toggleDone do objeto correto
-                arrInstancesTasks[currentLiIndex].toggleDone()
-                renderTasks()
+                const id = currentLi.getAttribute("data-id")
+                taskController.toggleDone(id)
+                console.log("Oi")
             }
         }
     

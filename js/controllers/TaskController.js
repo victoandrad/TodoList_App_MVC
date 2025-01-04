@@ -17,4 +17,10 @@ export default class TaskController {
             this.view.render(this.service.tasks)
         })
     }
+
+    update(id, obj) {
+        this.service.update(id, obj, () => {
+            this.view.render(this.service.tasks)
+        })
+    }
 }

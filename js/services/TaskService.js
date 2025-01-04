@@ -35,4 +35,11 @@ export default class TaskService {
         }
         createXMLHttpRequest("DELETE", `http://localhost:3000/tasks/${id}`, fn)
     }
+
+    update(id, obj, callback) {
+        const fn = () => {
+            this.getTasks(callback)
+        }
+        createXMLHttpRequest("PATCH", `http://localhost:3000/tasks/${id}`, fn, JSON.stringify(obj))
+    }
 }
