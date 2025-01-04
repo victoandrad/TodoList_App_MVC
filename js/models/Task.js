@@ -12,6 +12,7 @@ export default class Task {
 
     toggleDone() {
         this.completed = !this.completed
+        this.updatedAt = Date.now()
     }
 
     getTitle() {

@@ -28,7 +28,7 @@ export default class TaskController {
     toggleDone(id) {
         const task = this.service.searchById(id)
         task.toggleDone()
-        const { completed } = task
-        this.update(id, {completed})
+        const { completed, updatedAt } = task
+        this.update(id, {completed, updatedAt})
     }
 }
