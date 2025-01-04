@@ -8,7 +8,6 @@ export default class TaskService {
 
     getTasks(callback) {
         const fn = (data) => {
-            console.log(data)
             this.tasks = data.map(task => {
                 const { title, completed, createdAt, updatedAt } = task
                 return new Task(title, completed, createdAt, updatedAt)
@@ -23,9 +22,7 @@ export default class TaskService {
             throw new Error("This is not an instance of Task")
         }
         const fn = (task) => {
-            console.log(task)
-            this.tasks.push(task)
-            if (typeof callback === "function") callback()
+            this.getTasks(callback)
         }
         createXMLHttpRequest("POST", "http://localhost:3000/tasks", fn, JSON.stringify(task))
     }
