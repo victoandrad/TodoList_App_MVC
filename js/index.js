@@ -2,60 +2,61 @@ import TaskController from "./controllers/TaskController.js"
 import TaskService from "./services/TaskService.js"
 import TaskView from "./views/TaskView.js"
 
+// Intantiating MVC components
 const taskService = new TaskService()
 const taskView = new TaskView("#todo-list")
 const taskController = new TaskController(taskService, taskView)
 
+// Recovering data from database
 taskController.getTasks()
 
-//ARMAZENAR O DOM EM VARIAVEIS
+// DOM elements
 const itemInput = document.getElementById("item-input")
-const todoAddForm = document.getElementById("todo-add")
-const ul = document.getElementById("todo-list")
-const lis = ul.getElementsByTagName("li")
+const form = document.getElementById("todo-add")
+const todoList = document.getElementById("todo-list")
 
-todoAddForm.addEventListener("submit", function (e) {
+// Adding submit event into form
+form.addEventListener("submit", function (e) {
     e.preventDefault()
     taskController.insert(itemInput.value)
     itemInput.value = ""
     itemInput.focus()
 });
 
-ul.addEventListener("click", clickedUl)
-
-function clickedUl(e) {
-    const dataAction = e.target.getAttribute("data-action")
+// Adding interaction event
+todoList.addEventListener("click", (event) => {
+    const dataAction = event.target.getAttribute("data-action")
     if (!dataAction) return
 
-    let currentLi = e.target
-    while (currentLi.nodeName !== "LI") {
-        currentLi = currentLi.parentElement
+    let clickedItem = event.target
+    while (clickedItem.nodeName !== "LI") {
+        clickedItem = clickedItem.parentElement
     }
-    const currentLiIndex = [...lis].indexOf(currentLi)
+    let clickedItemIndex = [...todoList.querySelectorAll("li")].indexOf(clickedItem)
 
     const actions = {
         editButton: function () {
-            const editContainer = currentLi.querySelector(".editContainer");
-            [...ul.querySelectorAll(".editContainer")].forEach(container => {
+            const editContainer = clickedItem.querySelector(".editContainer");
+            [...todoList.querySelectorAll(".editContainer")].forEach(container => {
                 container.removeAttribute("style")
             });
             editContainer.style.display = "flex";
         },
         deleteButton: function () {
-            const id = currentLi.getAttribute("data-id")
+            const id = clickedItem.getAttribute("data-id")
             taskController.delete(id)
         },
         containerEditButton: function () {
-            const id = currentLi.getAttribute("data-id")
-            const value = currentLi.querySelector(".editInput").value
+            const id = clickedItem.getAttribute("data-id")
+            const value = clickedItem.querySelector(".editInput").value
             taskController.update(id, {title: value})
         },
         containerCancelButton: function () {
-            currentLi.querySelector(".editContainer").removeAttribute("style")
-            currentLi.querySelector(".editInput").value = arrInstancesTasks[currentLiIndex].getName()
+            clickedItem.querySelector(".editContainer").removeAttribute("style")
+            clickedItem.querySelector(".editInput").value = arrInstancesTasks[clickedItemIndex].getName()
         },
         checkButton: function () {
-            const id = currentLi.getAttribute("data-id")
+            const id = clickedItem.getAttribute("data-id")
             taskController.toggleDone(id)
         }
     }
@@ -63,4 +64,4 @@ function clickedUl(e) {
     if (actions[dataAction]) {
         actions[dataAction]()
     }
-}
+})
