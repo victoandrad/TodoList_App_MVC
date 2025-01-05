@@ -1,5 +1,6 @@
 import Task from "../models/Task.js"
 import createXMLHttpRequest from "../utils/createXMLHttpRequest.js"
+import { TASK_PATH } from "../config.js"
 
 export default class TaskService {
     constructor() {
@@ -16,31 +17,29 @@ export default class TaskService {
                 callback(this.tasks)
             }
         }
-        createXMLHttpRequest("GET", "http://localhost:3000/tasks", fn)
+        createXMLHttpRequest("GET", `${TASK_PATH}`, fn)
     }
 
     insert(task, callback) {
-        if (!task instanceof Task) {
-            throw new Error("This is not an instance of Task")
-        }
-        const fn = (task) => {
+        const fn = () => {
             this.getTasks(callback)
         }
-        createXMLHttpRequest("POST", "http://localhost:3000/tasks", fn, JSON.stringify(task))
+        createXMLHttpRequest("POST", `${TASK_PATH}`, fn, JSON.stringify(task))
     }
 
     delete(id, callback) {
         const fn = () => {
             this.getTasks(callback)
         }
-        createXMLHttpRequest("DELETE", `http://localhost:3000/tasks/${id}`, fn)
+        createXMLHttpRequest("DELETE", `${TASK_PATH}/${id}`, fn)
     }
 
     update(id, obj, callback) {
+        obj.updatedAt = Date.now()
         const fn = () => {
             this.getTasks(callback)
         }
-        createXMLHttpRequest("PATCH", `http://localhost:3000/tasks/${id}`, fn, JSON.stringify(obj))
+        createXMLHttpRequest("PATCH", `${TASK_PATH}/${id}`, fn, JSON.stringify(obj))
     }
 
     searchById(id) {

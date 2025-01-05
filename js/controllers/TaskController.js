@@ -31,4 +31,10 @@ export default class TaskController {
         const { completed, updatedAt } = task
         this.update(id, {completed, updatedAt})
     }
+
+    getTasks() {
+        this.service.getTasks(() => {
+            this.view.render(this.service.tasks)
+        })
+    }
 }
