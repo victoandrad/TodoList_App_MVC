@@ -7,7 +7,7 @@ export default class TaskController {
     }
 
     insert(title) {
-        this.service.insert(new Task(title), () => {
+        this.service.insert({title}, () => {
             this.view.render(this.service.tasks)
         })
     }
@@ -19,7 +19,6 @@ export default class TaskController {
     }
 
     update(id, obj) {
-        console.log(obj)
         this.service.update(id, obj, () => {
             this.view.render(this.service.tasks)
         })

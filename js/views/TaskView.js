@@ -4,7 +4,6 @@ export default class TaskView {
     }
 
     render(data) {
-        console.log(data)
         this.container.innerHTML = ""
         this.container.innerHTML = data.map(taskObject => {
             return `<li class="todo-item" data-id="${taskObject.id}">
