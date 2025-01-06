@@ -8,31 +8,37 @@ export default class TaskService {
         this.tasks = []
     }
 
-    getTasks(sucess, reject) {
+    getTasks(onSucess, onError) {
         const fn = (data) => {
             this.tasks = data.map(task => {
                 const { title, completed, createdAt, updatedAt, id } = task
                 return new Task(title, completed, createdAt, updatedAt, id)
             })
-            if (typeof sucess === "function") {
-                sucess(this.tasks)
+            if (typeof onSucess === "function") {
+                onSucess(this.tasks)
             }
         }
-        // createXMLHttpRequest("GET", `${TASK_PATH}`, fn, reject)
         createPromise("GET", `${TASK_PATH}`)
-            .then(resolve => {
-                fn(resolve)
-            })
+            .then(response => fn(response))
             .catch(error => {
-                console.log(error)
+                if (typeof onError === "function") {
+                    onError(error.message)
+                } else {
+                    throw new Error("Internal Server Error")
+                }
             })
     }
 
-    insert(task, sucess, reject) {
-        const fn = () => {
-            this.getTasks(sucess)
-        }
-        createXMLHttpRequest("POST", `${TASK_PATH}`, fn, reject, JSON.stringify(task))
+    insert(task, onSucess, onError) {
+        createPromise("POST", `${TASK_PATH}`, JSON.stringify(task))
+            .then(() => this.getTasks(onSucess, onError))
+            .catch(error => {
+                if (typeof onError === "function") {
+                    onError(error.message)
+                } else {
+                    throw new Error("Internal Server Error")
+                }
+            })
     }
 
     delete(id, sucess, reject) {
