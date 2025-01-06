@@ -1,5 +1,6 @@
 import Task from "../models/Task.js"
 import createXMLHttpRequest from "../utils/createXMLHttpRequest.js"
+import createPromise from "../utils/createPromise.js"
 import { TASK_PATH } from "../config.js"
 
 export default class TaskService {
@@ -17,7 +18,14 @@ export default class TaskService {
                 sucess(this.tasks)
             }
         }
-        createXMLHttpRequest("GET", `${TASK_PATH}`, fn, reject)
+        // createXMLHttpRequest("GET", `${TASK_PATH}`, fn, reject)
+        createPromise("GET", `${TASK_PATH}`)
+            .then(resolve => {
+                fn(resolve)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     insert(task, sucess, reject) {
