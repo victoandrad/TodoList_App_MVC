@@ -41,19 +41,29 @@ export default class TaskService {
             })
     }
 
-    delete(id, sucess, reject) {
-        const fn = () => {
-            this.getTasks(sucess)
-        }
-        createXMLHttpRequest("DELETE", `${TASK_PATH}/${id}`, fn, reject)
+    delete(id, onSucess, onError) {
+        createPromise("DELETE", `${TASK_PATH}/${id}`)
+            .then(() => this.getTasks(onSucess, onError))
+            .catch(error => {
+                if (typeof onError === "function") {
+                    onError(error.message)
+                } else {
+                    throw new Error("Internal Server Error")
+                }
+            })
     }
 
-    update(id, obj, sucess, reject) {
+    update(id, obj, onSucess, onError) {
         obj.updatedAt = Date.now()
-        const fn = () => {
-            this.getTasks(sucess)
-        }
-        createXMLHttpRequest("PATCH", `${TASK_PATH}/${id}`, fn, reject, JSON.stringify(obj))
+        createPromise("PATCH", `${TASK_PATH}/${id}`, JSON.stringify(obj))
+            .then(() => this.getTasks(onSucess, onError))
+            .catch(error => {
+                if (typeof onError === "function") {
+                    onError(error.message)
+                } else {
+                    throw new Error("Internal Server Error")
+                }
+            })
     }
 
     searchById(id) {
