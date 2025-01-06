@@ -7,39 +7,39 @@ export default class TaskService {
         this.tasks = []
     }
 
-    getTasks(callback) {
+    getTasks(sucess, reject) {
         const fn = (data) => {
             this.tasks = data.map(task => {
                 const { title, completed, createdAt, updatedAt, id } = task
                 return new Task(title, completed, createdAt, updatedAt, id)
             })
-            if (typeof callback === "function") {
-                callback(this.tasks)
+            if (typeof sucess === "function") {
+                sucess(this.tasks)
             }
         }
-        createXMLHttpRequest("GET", `${TASK_PATH}`, fn)
+        createXMLHttpRequest("GET", `${TASK_PATH}`, fn, reject)
     }
 
-    insert(task, callback) {
+    insert(task, sucess, reject) {
         const fn = () => {
-            this.getTasks(callback)
+            this.getTasks(sucess)
         }
-        createXMLHttpRequest("POST", `${TASK_PATH}`, fn, JSON.stringify(task))
+        createXMLHttpRequest("POST", `${TASK_PATH}`, fn, reject, JSON.stringify(task))
     }
 
-    delete(id, callback) {
+    delete(id, sucess, reject) {
         const fn = () => {
-            this.getTasks(callback)
+            this.getTasks(sucess)
         }
-        createXMLHttpRequest("DELETE", `${TASK_PATH}/${id}`, fn)
+        createXMLHttpRequest("DELETE", `${TASK_PATH}/${id}`, fn, reject)
     }
 
-    update(id, obj, callback) {
+    update(id, obj, sucess, reject) {
         obj.updatedAt = Date.now()
         const fn = () => {
-            this.getTasks(callback)
+            this.getTasks(sucess)
         }
-        createXMLHttpRequest("PATCH", `${TASK_PATH}/${id}`, fn, JSON.stringify(obj))
+        createXMLHttpRequest("PATCH", `${TASK_PATH}/${id}`, fn, reject, JSON.stringify(obj))
     }
 
     searchById(id) {

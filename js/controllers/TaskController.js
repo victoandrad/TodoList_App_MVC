@@ -1,5 +1,3 @@
-import Task from "../models/Task.js"
-
 export default class TaskController {
     constructor(service, view) {
         this.service = service
@@ -9,18 +7,24 @@ export default class TaskController {
     insert(title) {
         this.service.insert({title}, () => {
             this.view.render(this.service.tasks)
+        }, (message) => {
+            window.alert(message)
         })
     }
 
     delete(id) {
         this.service.delete(id, () => {
             this.view.render(this.service.tasks)
+        }, (message) => {
+            window.alert(message)
         })
     }
 
     update(id, obj) {
         this.service.update(id, obj, () => {
             this.view.render(this.service.tasks)
+        }, (message) => {
+            window.alert(message)
         })
     }
 
@@ -34,6 +38,8 @@ export default class TaskController {
     getTasks() {
         this.service.getTasks(() => {
             this.view.render(this.service.tasks)
+        }, (message) => {
+            window.alert(message)
         })
     }
 }
