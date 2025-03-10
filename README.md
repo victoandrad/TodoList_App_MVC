@@ -1,4 +1,4 @@
-# TodoList_Application_v2
+# TodoList App MVC
 
 This project was developed to demonstrate the application of the **MVC** (Model-View-Controller) architectural pattern in a JavaScript application. It uses a Restful API to manage application data based on the `database.json` file. The application is built using Node.js.
 
